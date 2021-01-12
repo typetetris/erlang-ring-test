@@ -1,0 +1,10 @@
+#! /usr/bin/env nix-shell
+#! nix-shell -i bash -p go -p erlang
+pushd golang/ring
+go build .
+./ring 10000 1000
+popd
+
+pushd erlang
+erlc ringtest.erl
+erl -noshell -s ringtest measure_ring_cli 10000 1000 -s init stop
